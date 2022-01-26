@@ -53,7 +53,7 @@ class List
 
     def priority
 
-        @items[0]
+       print @items[0]
 
     end
 
@@ -87,7 +87,7 @@ class List
 
     end
 
-    def up(index, amount=1)
+    def down(index, amount=1)
 
         if !self.valid_index?(index)
             return false
@@ -107,7 +107,7 @@ class List
     end
 
 
-    def down(index, amount=1)
+    def up(index, amount=1)
 
         if !self.valid_index?(index)
             return false
