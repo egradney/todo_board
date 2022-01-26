@@ -10,8 +10,10 @@ class Item
         @title = title
         @description = description
 
-        if self.valid_date?(deadline)
+        if Item.valid_date?(deadline)
             @deadline = deadline.split('-').map(&:to_i).join('-')
+        else
+            return false
         end
 
 
@@ -26,7 +28,7 @@ class Item
     end
 
 
-    def valid_date?(date_string)
+    def self.valid_date?(date_string)
 
         date_parts = date_string.split('-')
         
