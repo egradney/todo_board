@@ -4,56 +4,69 @@ require_relative "list"
 
 class TodoBoard
 
-    def initialize(label)
+    def initialize
 
-        @list = List.new(label)
-
-
+        @lists = {}
 
     end
 
     def get_command
 
         print "\n please enter a command\n"
-        cmd, *args = gets.chomp.split(' ')
+        cmd, list_label,*args = gets.chomp.split(' ')
 
         case cmd
+        when 'mklist'
+            @lists[list_label] = List.new(list_label)
+
+        when 'ls'
+            print @lists.keys
+
+        when 'showall'
+            @lists.values.each { |list| list.print }
+
         when 'mktodo'
-            @list.add_item(*args)
+            if @lists[list_label]
+                @lists[list_label].add_item(*args)
+            else
+                @lists[list_label] = List.new(list_label)
+                @lists[list_label].add_item(*args)
+            end
 
         when 'up'
-            @list.up(*args.map(&:to_i))
+            
+            @lists[list_label].up(*args.map(&:to_i))
 
         when 'down'
-            @list.down(*args.map(&:to_i))
+            @lists[list_label].down(*args.map(&:to_i))
 
         when 'swap'
-            @list.swap(*args.map(&:to_i))
+            @lists[list_label].swap(*args.map(&:to_i))
 
         when 'sort'
-            @list.sort_by_date!
+            @lists[list_label].sort_by_date!
 
         when 'priority'
-            @list.print_priority
+            @lists[list_label].print_priority
 
         when 'print'
             if args.length == 0
-                @list.print
+                @lists[list_label].print
             else
-                @list.print_full_item(*args.map(&:to_i))
+                @lists[list_label].print_full_item(*args.map(&:to_i))
             end
 
         when 'purge'
-            @list.purge
+            @lists[list_label].purge
 
         when 'toggle'
-            @list.toggle_item(*args.map(&:to_i))
+            @lists[list_label].toggle_item(*args.map(&:to_i))
             
         when 'quit'
             return false
 
         when 'rm'
-            @list.remove_item(*args.map(&:to_i))
+            @lists[list_label].remove_item(*args.map(&:to_i))
 
         else
             print "Sorry, that command is not recognized."
@@ -82,3 +95,7 @@ class TodoBoard
     end
 
 end
+
+my_board = TodoBoard.new()
+
+my_board.run
