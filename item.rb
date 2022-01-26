@@ -1,7 +1,7 @@
 
 class Item
 
-    attr_accessor :title, :description
+    attr_accessor :title, :description, :done
 
     attr_reader :deadline
 
@@ -9,6 +9,7 @@ class Item
 
         @title = title
         @description = description
+        @done = false
 
         if Item.valid_date?(deadline)
             @deadline = deadline.split('-').map(&:to_i).join('-')
@@ -23,6 +24,16 @@ class Item
 
         if self.valid_date?(deadline)
             @deadline = deadline.split('-').map(&:to_i).join('-')
+        end
+
+    end
+
+    def toggle
+
+        if self.done == false
+            self.done = true
+        else
+            self.done = false
         end
 
     end

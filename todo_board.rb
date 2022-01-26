@@ -42,9 +42,18 @@ class TodoBoard
             else
                 @list.print_full_item(*args.map(&:to_i))
             end
+
+        when 'purge'
+            @list.purge
+
+        when 'toggle'
+            @list.toggle_item(*args.map(&:to_i))
             
         when 'quit'
             return false
+
+        when 'rm'
+            @list.remove_item(*args.map(&:to_i))
 
         else
             print "Sorry, that command is not recognized."

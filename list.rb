@@ -59,11 +59,11 @@ class List
 
     def print
         puts '-------------------------------'
-        puts '          Groceries'
+        puts "          #{self.label}"
         puts '-------------------------------'
         puts 'Index | Item         | Deadline'
         puts '---------------------'
-        @items.each_with_index { |item, i| puts "#{i}   | #{item.title}       | #{item.deadline}" }
+        @items.each_with_index { |item, i| puts "#{i}   | #{item.title}       | #{item.deadline} | [#{item.done}]" }
         puts '---------------------'
     end
 
@@ -72,7 +72,7 @@ class List
         item = @items[index]
 
         if valid_index?(index)
-            puts " #{item.title}    #{item.deadline}    #{item.description}"
+            puts " #{item.title}    #{item.deadline}    #{item.description} #{item.done}"
         end
 
     end
@@ -82,7 +82,7 @@ class List
         item = @items[0]
 
         if valid_index?(0)
-            puts " #{item.title}    #{item.deadline}    #{item.description}"
+            puts " #{item.title}    #{item.deadline}    #{item.description}       #{item.done}"
         end
 
     end
@@ -129,6 +129,24 @@ class List
     def sort_by_date!
 
         @items.sort_by! { |item| item.deadline }
+
+    end
+
+    def toggle_item(index)
+        item = @items[index]
+
+        item.toggle
+    end
+
+    def purge
+
+        @items.select! { |item| item.done == false }
+
+    end
+
+    def remove_item(index)
+
+        @items.delete_at(index)
 
     end
 
