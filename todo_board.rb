@@ -20,7 +20,8 @@ class TodoBoard
             @lists[list_label] = List.new(list_label)
 
         when 'ls'
-            print @lists.keys
+            puts
+            @lists.keys.each { |key| puts key }
 
         when 'showall'
             @lists.values.each { |list| list.print }
@@ -50,10 +51,14 @@ class TodoBoard
             @lists[list_label].print_priority
 
         when 'print'
-            if args.length == 0
-                @lists[list_label].print
+            if list_label    
+                if args.length == 0
+                    @lists[list_label].print
+                else
+                    @lists[list_label].print_full_item(*args.map(&:to_i))
+                end
             else
-                @lists[list_label].print_full_item(*args.map(&:to_i))
+                print 'Invalid list specified'
             end
 
         when 'purge'
@@ -74,15 +79,17 @@ class TodoBoard
 
         true
 
+        rescue
+            print "Sorry, check your formatting and try again."
+            return true
+
     end
 
     def run
 
         until self.get_command == false
             if !self.get_command
-                print "\nProgram Ended.\n"
-                puts '---------------------'
-                return nil
+                break
             else
                 self.get_command
             end
